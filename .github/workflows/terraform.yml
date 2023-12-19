@@ -20,8 +20,8 @@ jobs:
           url: https://sample-cluster-public-vault-0a2cacb2.cee53a21.z1.hashicorp.cloud:8200
           token: ${{ secrets.VAULT_TOKEN }}
           secrets: |
-              secret/aws aws_access_key_id | AWS_ACCESS_KEY_ID ;
-              secret/aws aws_secret_access_key | AWS_SECRET_ACCESS_KEY ;
+              secret/data/aws aws_access_key_id | AWS_ACCESS_KEY_ID ;
+              secret/data/aws aws_secret_access_key | AWS_SECRET_ACCESS_KEY ;
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
