@@ -19,6 +19,7 @@ jobs:
         with:
           url: https://sample-cluster-public-vault-0a2cacb2.cee53a21.z1.hashicorp.cloud:8200
           token: ${{ secrets.VAULT_TOKEN }}
+          namespace: admin
           secrets: |
               secret/data/sample-secret accessKey | AWS_ACCESS_KEY_ID ;
               secret/data/sample-secret secretKey | AWS_SECRET_ACCESS_KEY ;
