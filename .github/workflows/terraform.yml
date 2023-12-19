@@ -41,9 +41,9 @@ jobs:
         id: validate
         run: cd iac && terraform validate -no-color
 
-      #- name: Terraform Plan
-      #  id: plan
-      #  run: cd iac && terraform plan -no-color -input=false -out=execution-plan.binary && terraform show --json execution-plan.binary > execution-plan.json
-      #  env:
-      #    AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE #AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #    AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY #AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
+      - name: Terraform Plan
+        id: plan
+        run: cd iac && terraform plan -no-color -input=false -out=execution-plan.binary && terraform show --json execution-plan.binary > execution-plan.json
+        env:
+          AWS_ACCESS_KEY_ID: "${{ steps.import-secrets.outputs.AWS_ACCESS_KEY_ID }}" #AKIAIOSFODNN7EXAMPLE #AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} #
+          AWS_SECRET_ACCESS_KEY: "${{ steps.import-secrets.outputs.AWS_SECRET_ACCESS_KEY }}" #wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY #AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
