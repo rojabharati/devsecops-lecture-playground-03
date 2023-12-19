@@ -1,0 +1,53 @@
+name: "Terraform"
+
+on:
+  push:
+    branches:
+      - main
+ 
+jobs:
+  terraform:
+    name: "Terraform"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_wrapper: false
+
+      - name: Terraform Format
+        id: fmt
+        run: cd iac && terraform fmt -check
+
+      - name: Terraform Init
+        id: init
+        run: cd iac && terraform init
+      
+      - name: Terraform Validate
+        id: validate
+        run: cd iac && terraform validate -no-color
+
+      - name: Terraform Plan
+        id: plan
+        run: cd iac && terraform plan -no-color -input=false -out=execution-plan.binary && terraform show --json execution-plan.binary > execution-plan.json
+        env:
+          AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
+          AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+
+      - name: debug stdout
+        run: echo ${{ steps.plan.outputs.stdout }}
+
+      #- name: Save debug json file
+      #  run: echo ${{ steps.plan.outputs.stdout }} > execution-plan.json
+
+      - name: Debug file
+        run: cat iac/execution-plan.json
+
+      - name: Archive terraform plan
+        uses: actions/upload-artifact@v3
+        with: 
+          name: execution-plan
+          path: iac/execution-plan.json
