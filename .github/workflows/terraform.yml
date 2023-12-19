@@ -30,12 +30,13 @@ jobs:
         id: validate
         run: cd iac && terraform validate -no-color
 
-      - name: Terraform Plan
-        id: plan
-        run: cd iac && terraform plan -no-color -input=false -out=execution-plan.binary && terraform show --json execution-plan.binary > execution-plan.json
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #- name: Terraform Plan
+      #  id: plan
+      #  run: cd iac && terraform plan -no-color -input=false -out=execution-plan.binary && terraform show --json execution-plan.binary > execution-plan.json
+      #  env:
+      #    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
 
       - name: debug stdout
         run: echo ${{ steps.plan.outputs.stdout }}
